@@ -3,25 +3,9 @@ name: Build (Dart)
 on:
   push:
     branches: [main]
-    paths:
-      - "**/*.dart"
-      - "pubspec.yaml"
-      - "pubspec.lock"
-      - "analysis_options.yaml"
-      - "dart_test.yaml"
-      - "mise.toml"
-      - "mise.ci.toml"
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [main]
-    paths:
-      - "**/*.dart"
-      - "pubspec.yaml"
-      - "pubspec.lock"
-      - "analysis_options.yaml"
-      - "dart_test.yaml"
-      - "mise.toml"
-      - "mise.ci.toml"
 
 permissions: {}
 
