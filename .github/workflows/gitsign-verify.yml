@@ -39,9 +39,15 @@ jobs:
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
+          # Allows any @pinguteca.com identity once the org email is
+          # provisioned, plus any @gmail.com identity as a transition
+          # allowance while the maintainer's GitHub primary email is
+          # still personal. Tighten to ^.*@pinguteca\.com$ once every
+          # active committer has a verified @pinguteca.com GitHub
+          # primary email.
           for sha in $(git rev-list "$BASE..$HEAD"); do
             echo "Verifying $sha"
             gitsign verify "$sha" \
-              --certificate-identity-regexp="^.*@pinguteca\.com$" \
+              --certificate-identity-regexp="^(.*@gmail\.com|.*@pinguteca\.com)$" \
               --certificate-oidc-issuer="https://github.com/login/oauth"
           done
