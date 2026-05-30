@@ -55,18 +55,20 @@ jobs:
         run: |
           TAG="${{ github.ref_name }}"
           echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
-      - name: Stamp pubspec version
+      - name: Stamp package version
         env:
           VERSION: ${{ steps.version.outputs.version }}
         # Replace the placeholder dev version with the tag-derived
         # one. dart pub refuses to publish 0.0.0-dev so this is
-        # mandatory.
+        # mandatory. The workspace root pubspec carries no version;
+        # only publishable packages do.
         run: |
-          sed -i "s/^version: .*/version: ${VERSION}/" pubspec.yaml
+          sed -i "s/^version: .*/version: ${VERSION}/" packages/core/pubspec.yaml
       - name: Fetch dependencies
         run: mise run ci:get
       - name: Dry-run publish
         # Catches manifest issues before the OIDC token is consumed.
+        working-directory: packages/core
         run: dart pub publish --dry-run
       # pub.dev Trusted Publishing: setup-dart exchanges the
       # workflow's OIDC token for a short-lived publish credential
@@ -76,13 +78,14 @@ jobs:
       - name: Publish to pub.dev
         uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260 # v1.7.2
       - name: Run dart pub publish
+        working-directory: packages/core
         run: dart pub publish --force
       - name: Generate SBOM
         run: mise run release:sbom
       - name: Compute checksums
         run: |
           mkdir -p out
-          sha256sum pubspec.yaml out/sbom/sdk-core-dart.cdx.json > out/checksums.txt 2>/dev/null || true
+          sha256sum packages/core/pubspec.yaml out/sbom/sdk-core-dart.cdx.json > out/checksums.txt 2>/dev/null || true
       - name: Install cosign
         uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
       - name: Sign checksums

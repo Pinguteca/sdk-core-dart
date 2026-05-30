@@ -7,7 +7,18 @@
 > foundations stabilise. Issues are welcome: open one before sending
 > code if you spot a bug or want a feature.
 
-Layer 2 interceptors and primitives for Pinguteca SDKs in Dart
+Layer 2 interceptors and primitives for Pinguteca SDKs in Dart.
+
+## Repository layout
+
+This repo is a Dart pub workspace plus Melos: pub resolves intra-repo
+`path:` dependencies and shares a single root `pubspec.lock`; Melos
+runs scripts, versioning, and publishing across packages.
+
+```
+packages/
+  core/        # sdk_core_dart -- published to pub.dev
+```
 
 ## Stack
 
