@@ -1,15 +1,43 @@
-name: sdk_core_dart
-description: Layer 2 interceptors and primitives for Pinguteca SDKs in Dart
-version: 0.0.0-dev
+name: pinguteca_sdk_workspace
+description: Monorepo workspace root for the Pinguteca Dart SDK family
 repository: https://github.com/Pinguteca/sdk-core-dart
-issue_tracker: https://github.com/Pinguteca/sdk-core-dart/issues
-homepage: https://github.com/Pinguteca/sdk-core-dart
-publish_to: https://pub.dev
+publish_to: none
 
 environment:
   sdk: ^3.12.0
 
+workspace:
+  - packages/core
+
 dev_dependencies:
-  coverage: ^1.10.0
-  lints: ^5.1.0
-  test: ^1.25.0
+  melos: ^7.8.0
+
+melos:
+  name: pinguteca_sdk
+
+  command:
+    version:
+      linkToCommits: true
+      workspaceChangelog: true
+      branch: main
+
+  scripts:
+    analyze:
+      description: Run the analyzer across every package
+      run: dart analyze --fatal-infos --fatal-warnings
+
+    format-check:
+      description: Verify formatting without changes
+      run: dart format --output=none --set-exit-if-changed .
+
+    test:
+      description: Run tests in every package that defines them
+      run: dart run melos exec --dir-exists=test --fail-fast -- "dart test --reporter=expanded"
+
+    test:coverage:
+      description: Run tests with coverage collection
+      run: dart run melos exec --dir-exists=test --fail-fast -- "dart test --reporter=expanded --coverage=coverage"
+
+    publish-dry:
+      description: Verify each publishable package can publish
+      run: dart run melos exec --no-private --fail-fast -- "dart pub publish --dry-run"

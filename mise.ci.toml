@@ -22,20 +22,20 @@ description = "Optimize Git config for CI (disable compression, fsync)"
 
 [tasks."ci:get"]
 run = "dart pub get --enforce-lockfile"
-description = "Restore Dart dependencies in locked mode (fails on pubspec.lock drift)"
-sources = ["pubspec.yaml", "pubspec.lock"]
+description = "Restore every workspace package in locked mode (fails on pubspec.lock drift)"
+sources = ["pubspec.yaml", "pubspec.lock", "packages/*/pubspec.yaml"]
 outputs = [".dart_tool/package_config.json"]
 
 [tasks."ci:analyze"]
 run = "dart analyze --fatal-infos --fatal-warnings"
 description = "Run the Dart analyzer with infos and warnings as failures"
-sources = ["**/*.dart", "analysis_options.yaml"]
+sources = ["packages/**/*.dart", "analysis_options.yaml"]
 
 [tasks."ci:test"]
-run = "dart test --reporter=expanded --coverage=coverage"
-description = "Run Dart tests with coverage collection"
-sources = ["**/*.dart", "pubspec.yaml", "dart_test.yaml"]
-outputs = ["coverage/**/*"]
+run = "dart run melos run test:coverage"
+description = "Run melos-driven tests with coverage collection per package"
+sources = ["packages/**/*.dart", "packages/*/pubspec.yaml", "dart_test.yaml"]
+outputs = ["packages/*/coverage/**/*"]
 
 [tasks."ci:format-check"]
 run = "dart format --output=none --set-exit-if-changed ."

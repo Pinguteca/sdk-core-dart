@@ -39,6 +39,7 @@ alias = "rsbom"
 sources = [
     "pubspec.yaml",
     "pubspec.lock",
+    "packages/*/pubspec.yaml",
 ]
 outputs = ["out/sbom/**/*"]
 
@@ -48,27 +49,27 @@ depends = ["lint:*"]
 
 [tasks.get]
 run = "dart pub get"
-description = "Resolve Dart dependencies into pubspec.lock"
+description = "Resolve every workspace package into the shared pubspec.lock"
 alias = "g"
-sources = ["pubspec.yaml"]
+sources = ["pubspec.yaml", "packages/*/pubspec.yaml"]
 outputs = ["pubspec.lock"]
 
 [tasks.test]
-run = "dart test"
-description = "Run Dart tests"
+run = "dart run melos run test"
+description = "Run Dart tests across every workspace package"
 alias = "t"
-sources = ["**/*.dart", "pubspec.yaml", "dart_test.yaml"]
-outputs = ["coverage/**/*"]
+sources = ["packages/**/*.dart", "packages/*/pubspec.yaml", "dart_test.yaml"]
+outputs = ["packages/*/coverage/**/*"]
 
 [tasks.analyze]
 run = "dart analyze"
-description = "Run the Dart static analyzer"
+description = "Run the Dart static analyzer across the workspace"
 alias = "a"
-sources = ["**/*.dart", "analysis_options.yaml"]
+sources = ["packages/**/*.dart", "analysis_options.yaml"]
 
 [tasks.format]
 run = "dart format ."
-description = "Format Dart code in place"
+description = "Format Dart code in place across the workspace"
 alias = "fmt"
 
 [tasks."format:check"]
@@ -79,8 +80,8 @@ alias = "fmtc"
 [tasks."lint:dart"]
 run = "dart analyze --fatal-infos --fatal-warnings"
 description = "Treat analyzer infos and warnings as failures"
-sources = ["**/*.dart", "analysis_options.yaml"]
+sources = ["packages/**/*.dart", "analysis_options.yaml"]
 
 [tasks.publish-dry]
-run = "dart pub publish --dry-run"
-description = "Verify publishability without uploading"
+run = "dart run melos run publish-dry"
+description = "Verify every publishable package can publish"
