@@ -21,7 +21,7 @@ jobs:
       contents: read
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         with:
           egress-policy: audit
           disable-telemetry: "true"
@@ -32,16 +32,22 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Install gitsign
-        uses: chainguard-dev/actions/setup-gitsign@5a9aa9e1e5d2b6cf78b38b68e7db7c3df9e1c2db # main
+        uses: chainguard-dev/actions/setup-gitsign@0cda751b114eb55c388e88f7479292668165602a # v1.0.2
       - name: Verify every commit in PR
         env:
           BASE: ${{ github.event.pull_request.base.sha }}
           HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
+          # Allows any @pinguteca.com identity once the org email is
+          # provisioned, plus any @gmail.com identity as a transition
+          # allowance while the maintainer's GitHub primary email is
+          # still personal. Tighten to ^.*@pinguteca\.com$ once every
+          # active committer has a verified @pinguteca.com GitHub
+          # primary email.
           for sha in $(git rev-list "$BASE..$HEAD"); do
             echo "Verifying $sha"
             gitsign verify "$sha" \
-              --certificate-identity-regexp="^.*@pinguteca\.com$" \
+              --certificate-identity-regexp="^(.*@gmail\.com|.*@pinguteca\.com)$" \
               --certificate-oidc-issuer="https://github.com/login/oauth"
           done

@@ -39,7 +39,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         with:
           egress-policy: audit
           disable-telemetry: "true"
@@ -56,7 +56,7 @@ jobs:
           persist-credentials: false
           token: ${{ steps.octo-sts.outputs.token }}
       - name: Optimize raster images
-        uses: calibreapp/image-actions@1ad9a2ddc5edc551f8f09fdf94d949b45c2f3c8d # v1.1.1
+        uses: calibreapp/image-actions@9d037c06280028c110ff61c433ad4dc7d33c3c43 # 1.5.0
         with:
           githubToken: ${{ steps.octo-sts.outputs.token }}
           jpegQuality: "85"

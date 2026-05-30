@@ -25,7 +25,7 @@ jobs:
       contents: write
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         with:
           egress-policy: audit
           disable-telemetry: "true"
@@ -42,17 +42,17 @@ jobs:
           persist-credentials: true
           token: ${{ steps.octo-sts.outputs.token }}
       - name: Verify lockfile
-        uses: gjtorikian/gh-actions-lockfile@v1.2.1
+        uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
         with:
           mode: verify
       - name: Regenerate lockfile on failure
         if: failure()
-        uses: gjtorikian/gh-actions-lockfile@v1.2.1
+        uses: gjtorikian/gh-actions-lockfile@8abbeb1fe0a4bf20279c81fa206e6a2fc862a830 # v1.2.1
         with:
           mode: generate
       - name: Auto-commit regenerated lockfile
         if: failure()
-        uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403 # v6.0.1
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
         with:
           commit_message: "ci: regenerate .github/actions.lock.json [skip ci]"
           file_pattern: .github/actions.lock.json

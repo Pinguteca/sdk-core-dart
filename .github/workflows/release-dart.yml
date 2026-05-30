@@ -27,7 +27,7 @@ jobs:
       hashes: ${{ steps.hash.outputs.hashes }}
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176 # v2.17.0
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
         with:
           egress-policy: audit
           disable-telemetry: "true"
@@ -74,7 +74,7 @@ jobs:
       # under its trusted publishers.
       # See https://dart.dev/tools/pub/automated-publishing
       - name: Publish to pub.dev
-        uses: dart-lang/setup-dart@2c91d11a90f04a98ade4216df66e1ce75c0a26b3 # v1.7.0
+        uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260 # v1.7.2
       - name: Run dart pub publish
         run: dart pub publish --force
       - name: Generate SBOM
@@ -84,7 +84,7 @@ jobs:
           mkdir -p out
           sha256sum pubspec.yaml out/sbom/sdk-core-dart.cdx.json > out/checksums.txt 2>/dev/null || true
       - name: Install cosign
-        uses: sigstore/cosign-installer@cad07c2e89fa2edd6e2d7bab4c1aa38e53f76003 # v4.1.1
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
       - name: Sign checksums
         run: |
           cd out
