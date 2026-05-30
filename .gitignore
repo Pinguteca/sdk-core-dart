@@ -1,0 +1,46 @@
+# ---------------------------------------------------------------------------
+# Cross-cutting
+# ---------------------------------------------------------------------------
+
+# Mise
+mise.local.toml
+mise.local.lock
+
+# fnox secrets
+.fnox/
+*.fnox.local
+
+# Generated outputs
+out/
+dist/
+
+# AI assistants
+.claude
+.skills
+.aider*
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# env
+.env
+.env.local
+
+# ---------------------------------------------------------------------------
+# Dart
+# ---------------------------------------------------------------------------
+.dart_tool/
+.packages
+build/
+coverage/
+doc/api/
+
+# Library packages commit pubspec.lock; applications may want to
+# uncomment the line below to ignore it.
+# pubspec.lock
+

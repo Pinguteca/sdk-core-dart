@@ -1,0 +1,86 @@
+[settings]
+experimental = true
+env_cache = true
+env_cache_ttl = "9h"
+install_before = "7d"
+pin = true
+lockfile = true
+locked = false
+prefer_offline = true
+disable_default_registry = true
+disable_backends = ["asdf", "vfox", "ubi"]
+
+[tools]
+"github:mongodb/kingfisher" = "1.98.0"
+cocogitto = "6.5.0"
+pinact = "3.9.2"
+prek = "0.3.9"
+syft = "1.42.4"
+dart = "3.12.1"
+
+[tasks."secret:scan"]
+run = "kingfisher scan . --no-validate --redact --format json --output kingfisher-results.json"
+description = "Scan codebase for secrets with Kingfisher"
+alias = "ss"
+
+[tasks."secret:validate"]
+run = "kingfisher scan . --redact --validation-rps 2"
+description = "Validate (and revoke) live secrets found by Kingfisher"
+alias = "sv"
+
+[tasks.bump]
+run = "cog bump --auto"
+description = "Calculate next version from conventional commits and tag"
+
+[tasks."release:sbom"]
+run = "syft scan dir:. -o cyclonedx-json=out/sbom/sdk-core-dart.cdx.json"
+description = "Generate CycloneDX SBOM for the workspace"
+alias = "rsbom"
+sources = [
+    "pubspec.yaml",
+    "pubspec.lock",
+]
+outputs = ["out/sbom/**/*"]
+
+[tasks.lint]
+description = "Run all linting"
+depends = ["lint:*"]
+
+[tasks.get]
+run = "dart pub get"
+description = "Resolve Dart dependencies into pubspec.lock"
+alias = "g"
+sources = ["pubspec.yaml"]
+outputs = ["pubspec.lock"]
+
+[tasks.test]
+run = "dart test"
+description = "Run Dart tests"
+alias = "t"
+sources = ["**/*.dart", "pubspec.yaml", "dart_test.yaml"]
+outputs = ["coverage/**/*"]
+
+[tasks.analyze]
+run = "dart analyze"
+description = "Run the Dart static analyzer"
+alias = "a"
+sources = ["**/*.dart", "analysis_options.yaml"]
+
+[tasks.format]
+run = "dart format ."
+description = "Format Dart code in place"
+alias = "fmt"
+
+[tasks."format:check"]
+run = "dart format --output=none --set-exit-if-changed ."
+description = "Verify Dart formatting without changes"
+alias = "fmtc"
+
+[tasks."lint:dart"]
+run = "dart analyze --fatal-infos --fatal-warnings"
+description = "Treat analyzer infos and warnings as failures"
+sources = ["**/*.dart", "analysis_options.yaml"]
+
+[tasks.publish-dry]
+run = "dart pub publish --dry-run"
+description = "Verify publishability without uploading"

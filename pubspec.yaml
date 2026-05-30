@@ -1,0 +1,15 @@
+name: sdk_core_dart
+description: Layer 2 interceptors and primitives for Pinguteca SDKs in Dart
+version: 0.0.0-dev
+repository: https://github.com/Pinguteca/sdk-core-dart
+issue_tracker: https://github.com/Pinguteca/sdk-core-dart/issues
+homepage: https://github.com/Pinguteca/sdk-core-dart
+publish_to: https://pub.dev
+
+environment:
+  sdk: ^3.12.0
+
+dev_dependencies:
+  lints: ^5.1.0
+  test: ^1.25.0
+  coverage: ^1.10.0
