@@ -11,6 +11,9 @@ environment:
 
 resolution: workspace
 
+dependencies:
+  connectrpc: ^1.0.0
+
 dev_dependencies:
   coverage: ^1.10.0
   lints: ^5.1.0
