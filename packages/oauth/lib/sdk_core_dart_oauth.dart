@@ -13,6 +13,7 @@ export 'src/client_credentials.dart'
         ClientCredentialsConfig,
         ClientCredentialsTokenSource,
         OAuthException;
+export 'src/mtls_config.dart' show MtlsConfig;
 export 'src/oidc_discovery.dart'
     show OidcDiscoveryConfig, OidcMetadata, discoverOidc;
 export 'src/pkce.dart' show PkcePair;

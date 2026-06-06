@@ -22,6 +22,14 @@ enum ClientAuthMode {
   /// `client_id` and `client_secret`. Use only when the IdP rejects
   /// Basic auth or documents form-post as the supported mode.
   formPost,
+
+  /// Mutual-TLS client authentication per RFC 8705. The TLS handshake
+  /// authenticates the client; no Basic auth header or `client_secret`
+  /// body field is sent. The configured `httpClient` MUST present the
+  /// client certificate during the handshake (see
+  /// `package:sdk_core_dart_oauth/mtls.dart`). `client_id` still
+  /// appears in the body so the IdP can pick the correct policy.
+  mtls,
 }
 
 /// Configuration for [ClientCredentialsTokenSource].
@@ -188,14 +196,21 @@ final class ClientCredentialsTokenSource implements TokenSource {
       'content-type': 'application/x-www-form-urlencoded',
       'accept': 'application/json',
     };
-    if (_config.authMode == ClientAuthMode.basic) {
-      final credentials = base64Encode(
-        utf8.encode('${_config.clientId}:${_config.clientSecret}'),
-      );
-      headers['authorization'] = 'Basic $credentials';
-    } else {
-      body['client_id'] = _config.clientId;
-      body['client_secret'] = _config.clientSecret;
+    switch (_config.authMode) {
+      case ClientAuthMode.basic:
+        final credentials = base64Encode(
+          utf8.encode('${_config.clientId}:${_config.clientSecret}'),
+        );
+        headers['authorization'] = 'Basic $credentials';
+        break;
+      case ClientAuthMode.formPost:
+        body['client_id'] = _config.clientId;
+        body['client_secret'] = _config.clientSecret;
+        break;
+      case ClientAuthMode.mtls:
+        // RFC 8705: TLS handshake authenticates; client_id only.
+        body['client_id'] = _config.clientId;
+        break;
     }
 
     final http.Response response;

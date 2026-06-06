@@ -205,13 +205,25 @@ final class AuthorizationCodeFlow {
     };
 
     final secret = config.clientSecret;
-    if (secret == null) {
-      body['client_id'] = config.clientId;
-    } else if (config.clientAuthMode == ClientAuthMode.basic) {
-      headers['authorization'] = 'Basic ${_basicAuth(config.clientId, secret)}';
-    } else {
-      body['client_id'] = config.clientId;
-      body['client_secret'] = secret;
+    switch (config.clientAuthMode) {
+      case ClientAuthMode.mtls:
+        // RFC 8705: TLS handshake authenticates; client_id only.
+        body['client_id'] = config.clientId;
+        break;
+      case ClientAuthMode.basic:
+        if (secret == null) {
+          body['client_id'] = config.clientId;
+        } else {
+          headers['authorization'] =
+              'Basic ${_basicAuth(config.clientId, secret)}';
+        }
+        break;
+      case ClientAuthMode.formPost:
+        body['client_id'] = config.clientId;
+        if (secret != null) {
+          body['client_secret'] = secret;
+        }
+        break;
     }
 
     final http.Response response;
