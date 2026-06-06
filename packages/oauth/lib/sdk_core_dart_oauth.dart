@@ -8,3 +8,5 @@ export 'src/client_credentials.dart'
         ClientCredentialsConfig,
         ClientCredentialsTokenSource,
         OAuthException;
+export 'src/oidc_discovery.dart'
+    show OidcDiscoveryConfig, OidcMetadata, discoverOidc;

@@ -9,6 +9,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:sdk_core_dart/auth.dart' show TokenSource;
 
+import 'oidc_discovery.dart';
+
 /// Where the client credentials are sent on the token request.
 enum ClientAuthMode {
   /// `Authorization: Basic base64(clientId:clientSecret)` header. Default
@@ -107,6 +109,44 @@ final class OAuthException implements Exception {
 final class ClientCredentialsTokenSource implements TokenSource {
   /// Builds a source using [config].
   ClientCredentialsTokenSource(this._config);
+
+  /// Convenience factory that performs OIDC discovery on [issuer] and
+  /// returns a [ClientCredentialsTokenSource] wired to the resulting
+  /// `token_endpoint`. Discovery happens once at construction; subsequent
+  /// [token] calls reuse the resolved endpoint.
+  static Future<ClientCredentialsTokenSource> fromIssuer({
+    required Uri issuer,
+    required String clientId,
+    required String clientSecret,
+    List<String>? scopes,
+    ClientAuthMode authMode = ClientAuthMode.basic,
+    Duration earlyRefresh = const Duration(seconds: 60),
+    http.Client? httpClient,
+    DateTime Function()? now,
+    Duration discoveryTimeout = const Duration(seconds: 10),
+    bool validateIssuer = true,
+  }) async {
+    final metadata = await discoverOidc(
+      OidcDiscoveryConfig(
+        issuer: issuer,
+        httpClient: httpClient,
+        timeout: discoveryTimeout,
+        validateIssuer: validateIssuer,
+      ),
+    );
+    return ClientCredentialsTokenSource(
+      ClientCredentialsConfig(
+        tokenEndpoint: metadata.tokenEndpoint,
+        clientId: clientId,
+        clientSecret: clientSecret,
+        scopes: scopes,
+        authMode: authMode,
+        earlyRefresh: earlyRefresh,
+        httpClient: httpClient,
+        now: now,
+      ),
+    );
+  }
 
   final ClientCredentialsConfig _config;
 
