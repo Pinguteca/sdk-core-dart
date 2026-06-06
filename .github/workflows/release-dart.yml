@@ -2,7 +2,10 @@ name: Release (Dart)
 
 on:
   push:
-    tags: ["v*"]
+    # Per-package tags. Format: <pkg-dir>-v<semver>, e.g. core-v0.0.2 or
+    # oauth-v0.0.1. The mise release:parse-tag task is the canonical
+    # parser; keep this filter aligned with the packages it recognises.
+    tags: ["core-v*", "oauth-v*"]
   workflow_dispatch:
 
 permissions: {}
@@ -50,43 +53,43 @@ jobs:
           experimental: true
         env:
           GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
+      - name: Parse release tag
+        # Writes RELEASE_PKG_DIR / RELEASE_VERSION / RELEASE_PKG_NAME into
+        # $GITHUB_ENV so every subsequent step inherits them. The same
+        # mise task is callable locally for dry runs.
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: mise run release:parse-tag >> "$GITHUB_ENV"
       - name: Verify pubspec version matches tag
-        # The tag drives the release; the tagged commit must already
-        # carry the matching version in packages/core/pubspec.yaml so
-        # the publish has a clean tree (dart pub publish rejects a
-        # modified-since-commit pubspec). cog bump performs this
-        # bump+commit+tag atomically; manual releases edit pubspec on
-        # main first, then tag.
-        run: |
-          TAG="${{ github.ref_name }}"
-          EXPECTED="${TAG#v}"
-          ACTUAL=$(grep '^version:' packages/core/pubspec.yaml | awk '{print $2}')
-          if [ "$EXPECTED" != "$ACTUAL" ]; then
-            echo "::error::Tag $TAG expects version $EXPECTED but packages/core/pubspec.yaml has $ACTUAL"
-            exit 1
-          fi
+        # The tagged commit must already carry the matching version in
+        # packages/$RELEASE_PKG_DIR/pubspec.yaml so the publish has a
+        # clean tree (dart pub publish rejects a modified-since-commit
+        # pubspec). cog bump or a manual edit handles the bump before
+        # tagging; this step fails fast if the tag and pubspec diverge.
+        run: mise run release:verify-version
       - name: Fetch dependencies
         run: mise run ci:get
       - name: Dry-run publish
         # Catches manifest issues before the OIDC token is consumed.
-        working-directory: packages/core
-        run: dart pub publish --dry-run
-      # pub.dev Trusted Publishing: setup-dart exchanges the
-      # workflow's OIDC token for a short-lived publish credential
-      # at push time. The pub.dev publisher must list this workflow
-      # under its trusted publishers.
+        run: mise run release:dry-run
+      # pub.dev Trusted Publishing: setup-dart exchanges the workflow's
+      # OIDC token for a short-lived publish credential at push time. The
+      # pub.dev package admin must list this workflow under its
+      # automated-publishing settings.
       # See https://dart.dev/tools/pub/automated-publishing
-      - name: Publish to pub.dev
+      - name: Setup Dart for trusted publishing
         uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260 # v1.7.2
       - name: Run dart pub publish
-        working-directory: packages/core
-        run: dart pub publish --force
+        run: mise run release:publish
       - name: Generate SBOM
         run: mise run release:sbom
       - name: Compute checksums
         run: |
           mkdir -p out
-          sha256sum packages/core/pubspec.yaml out/sbom/sdk-core-dart.cdx.json > out/checksums.txt 2>/dev/null || true
+          sha256sum \
+            "packages/${RELEASE_PKG_DIR}/pubspec.yaml" \
+            "out/sbom/${RELEASE_PKG_NAME}.cdx.json" \
+            > out/checksums.txt
       - name: Install cosign
         uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
       - name: Sign checksums
@@ -112,7 +115,7 @@ jobs:
           gh release create "$TAG" \
             --repo "$GITHUB_REPOSITORY" \
             --generate-notes \
-            out/sbom/sdk-core-dart.cdx.json \
+            "out/sbom/${RELEASE_PKG_NAME}.cdx.json" \
             out/checksums.txt \
             out/checksums.txt.sigstore.json
 

@@ -29,13 +29,83 @@ description = "Validate (and revoke) live secrets found by Kingfisher"
 alias = "sv"
 
 [tasks.bump]
-run = "cog bump --auto"
-description = "Calculate next version from conventional commits and tag"
+run = "dart run melos version"
+description = "Interactive: bump versions for changed packages via melos; creates <pkg-dir>-v<semver> tags"
+
+# Per-package release tasks. The release-dart workflow chains these so the
+# logic is identical between CI and a local dry run, and so the developer
+# can rehearse a release end-to-end without pushing a tag.
+#
+# Inputs read from the environment so callers (workflow, manual) wire
+# them once and every step inherits:
+#
+#   RELEASE_PKG_DIR   - directory name under packages/, e.g. "core" or "oauth".
+#   RELEASE_VERSION   - semver pulled from the tag.
+#   RELEASE_PKG_NAME  - published name from the package's pubspec.yaml.
+#
+# release:parse-tag derives all three from RELEASE_TAG (e.g. "core-v0.0.2"
+# or "oauth-v0.0.1") and prints them as KEY=VALUE lines so the workflow
+# can append the output to $GITHUB_ENV in one step. Locally, source the
+# output with `eval $(RELEASE_TAG=core-v0.0.2 mise run release:parse-tag)`.
+
+[tasks."release:parse-tag"]
+description = "Parse RELEASE_TAG (<pkg-dir>-v<semver>) and emit RELEASE_PKG_DIR/RELEASE_VERSION/RELEASE_PKG_NAME"
+run = """
+TAG="${RELEASE_TAG:?RELEASE_TAG is required}"
+case "$TAG" in
+  core-v*|oauth-v*) ;;
+  *)
+    echo "::error::unsupported release tag '$TAG' (expected <pkg-dir>-v<semver> with pkg-dir in {core,oauth})" >&2
+    exit 1
+    ;;
+esac
+DIR="${TAG%-v*}"
+VERSION="${TAG##*-v}"
+NAME=$(grep '^name:' "packages/${DIR}/pubspec.yaml" | awk '{print $2}')
+if [ -z "$NAME" ]; then
+  echo "::error::could not read package name from packages/${DIR}/pubspec.yaml" >&2
+  exit 1
+fi
+echo "RELEASE_PKG_DIR=$DIR"
+echo "RELEASE_VERSION=$VERSION"
+echo "RELEASE_PKG_NAME=$NAME"
+"""
+
+[tasks."release:verify-version"]
+description = "Fail when packages/$RELEASE_PKG_DIR/pubspec.yaml does not carry RELEASE_VERSION"
+run = """
+DIR="${RELEASE_PKG_DIR:?RELEASE_PKG_DIR is required}"
+EXPECTED="${RELEASE_VERSION:?RELEASE_VERSION is required}"
+ACTUAL=$(grep '^version:' "packages/${DIR}/pubspec.yaml" | awk '{print $2}')
+if [ "$EXPECTED" != "$ACTUAL" ]; then
+  echo "::error::Tag expects version $EXPECTED but packages/${DIR}/pubspec.yaml has $ACTUAL" >&2
+  exit 1
+fi
+"""
+
+[tasks."release:dry-run"]
+description = "dart pub publish --dry-run from packages/$RELEASE_PKG_DIR"
+run = """
+DIR="${RELEASE_PKG_DIR:?RELEASE_PKG_DIR is required}"
+cd "packages/${DIR}" && dart pub publish --dry-run
+"""
+
+[tasks."release:publish"]
+description = "dart pub publish --force from packages/$RELEASE_PKG_DIR (CI only; requires trusted-publisher token from setup-dart)"
+run = """
+DIR="${RELEASE_PKG_DIR:?RELEASE_PKG_DIR is required}"
+cd "packages/${DIR}" && dart pub publish --force
+"""
 
 [tasks."release:sbom"]
-run = "syft scan dir:. -o cyclonedx-json=out/sbom/sdk-core-dart.cdx.json"
-description = "Generate CycloneDX SBOM for the workspace"
+description = "Generate CycloneDX SBOM for packages/$RELEASE_PKG_DIR"
 alias = "rsbom"
+run = """
+DIR="${RELEASE_PKG_DIR:?RELEASE_PKG_DIR is required}"
+NAME="${RELEASE_PKG_NAME:?RELEASE_PKG_NAME is required}"
+mkdir -p out/sbom
+syft scan "dir:packages/${DIR}" -o "cyclonedx-json=out/sbom/${NAME}.cdx.json"
+"""
 sources = [
     "pubspec.yaml",
     "pubspec.lock",

@@ -1,6 +1,9 @@
 issuer: https://token.actions.githubusercontent.com
-subject_pattern: "repo:Pinguteca/sdk-core-dart:ref:refs/tags/v.*"
+# Tags are per-package: <pkg-dir>-v<semver>, e.g. core-v0.0.2 or
+# oauth-v0.0.1. Keep this list in lockstep with the tag filter in
+# release-dart.yml and the dispatcher in mise.toml's release:parse-tag.
+subject_pattern: "repo:Pinguteca/sdk-core-dart:ref:refs/tags/(core|oauth)-v.*"
 claim_pattern:
-  workflow_ref: "Pinguteca/sdk-core-dart/\\.github/workflows/release-(go|dotnet|dart)\\.yml@refs/tags/v.*"
+  workflow_ref: "Pinguteca/sdk-core-dart/\\.github/workflows/release-(go|dotnet|dart)\\.yml@refs/tags/(core|oauth)-v.*"
 permissions:
   contents: write
