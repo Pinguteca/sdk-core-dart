@@ -11,9 +11,19 @@ edit by hand.
 ## [Unreleased]
 
 - - -
+## 0.0.1
+
+- First Layer 2 Must-tier release. Includes:
+  - retry interceptor (RFC 0006 contract)
+  - timeout interceptor
+  - idempotency-key interceptor
+  - auth interceptor
+  - SdkError typed boundary
+- Published with full SBOM and SLSA L3 provenance via the
+  release-dart workflow.
+
+- - -
 ## 0.0.0
 
 - Placeholder release to claim the `sdk_core_dart` package name on
-  pub.dev under the `pinguteca.com` publisher. The real first release
-  follows as 0.0.1 with full SBOM and SLSA provenance via the
-  release-dart workflow.
+  pub.dev under the `pinguteca.com` publisher.
