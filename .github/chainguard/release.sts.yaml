@@ -1,6 +1,6 @@
 issuer: https://token.actions.githubusercontent.com
 subject_pattern: "repo:Pinguteca/sdk-core-dart:ref:refs/tags/v.*"
 claim_pattern:
-  workflow_ref: "Pinguteca/sdk-core-dart/\\.github/workflows/release-(go|dotnet)\\.yml@refs/tags/v.*"
+  workflow_ref: "Pinguteca/sdk-core-dart/\\.github/workflows/release-(go|dotnet|dart)\\.yml@refs/tags/v.*"
 permissions:
   contents: write
