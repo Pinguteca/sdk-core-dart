@@ -50,20 +50,21 @@ jobs:
           experimental: true
         env:
           GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
-      - name: Resolve version from tag
-        id: version
+      - name: Verify pubspec version matches tag
+        # The tag drives the release; the tagged commit must already
+        # carry the matching version in packages/core/pubspec.yaml so
+        # the publish has a clean tree (dart pub publish rejects a
+        # modified-since-commit pubspec). cog bump performs this
+        # bump+commit+tag atomically; manual releases edit pubspec on
+        # main first, then tag.
         run: |
           TAG="${{ github.ref_name }}"
-          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
-      - name: Stamp package version
-        env:
-          VERSION: ${{ steps.version.outputs.version }}
-        # Replace the placeholder dev version with the tag-derived
-        # one. dart pub refuses to publish 0.0.0-dev so this is
-        # mandatory. The workspace root pubspec carries no version;
-        # only publishable packages do.
-        run: |
-          sed -i "s/^version: .*/version: ${VERSION}/" packages/core/pubspec.yaml
+          EXPECTED="${TAG#v}"
+          ACTUAL=$(grep '^version:' packages/core/pubspec.yaml | awk '{print $2}')
+          if [ "$EXPECTED" != "$ACTUAL" ]; then
+            echo "::error::Tag $TAG expects version $EXPECTED but packages/core/pubspec.yaml has $ACTUAL"
+            exit 1
+          fi
       - name: Fetch dependencies
         run: mise run ci:get
       - name: Dry-run publish
