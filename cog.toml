@@ -17,8 +17,17 @@ post_bump_hooks = ["git push origin {{version_tag}}"]
 [monorepo.packages]
 # Per-package versions and tags. cog produces tags as <name>-v<semver>,
 # matching the filter in .github/workflows/release-dart.yml.
-core = { path = "packages/core" }
-oauth = { path = "packages/oauth" }
+#
+# pre_bump_hooks stamp the new version into each package's pubspec.yaml
+# before cog creates the bump commit. cog has no native pubspec.yaml
+# writer the way it does for Cargo.toml or package.json; the sed line
+# is the canonical workaround used across Dart monorepos that adopt cog.
+core = { path = "packages/core", pre_bump_hooks = [
+  "sed -i 's/^version: .*/version: {{version}}/' packages/core/pubspec.yaml",
+] }
+oauth = { path = "packages/oauth", pre_bump_hooks = [
+  "sed -i 's/^version: .*/version: {{version}}/' packages/oauth/pubspec.yaml",
+] }
 
 [git_hooks]
 
