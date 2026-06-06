@@ -9,3 +9,11 @@ edit by hand.
 
 - - -
 ## [Unreleased]
+
+- - -
+## 0.0.0
+
+- Placeholder release to claim the `sdk_core_dart` package name on
+  pub.dev under the `pinguteca.com` publisher. The real first release
+  follows as 0.0.1 with full SBOM and SLSA provenance via the
+  release-dart workflow.

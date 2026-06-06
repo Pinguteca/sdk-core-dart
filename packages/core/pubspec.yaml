@@ -4,7 +4,6 @@ version: 0.0.0-dev
 repository: https://github.com/Pinguteca/sdk-core-dart
 issue_tracker: https://github.com/Pinguteca/sdk-core-dart/issues
 homepage: https://github.com/Pinguteca/sdk-core-dart
-publish_to: https://pub.dev
 
 environment:
   sdk: ^3.12.0
