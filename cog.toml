@@ -6,10 +6,19 @@ disable_changelog = false
 disable_bump_commit = false
 generate_mono_repository_global_tag = true
 generate_mono_repository_package_tags = true
+# Keep the cog default `-` separator: <pkg>-v<semver>. Matches the Dart
+# ecosystem convention used by melos, Riverpod, Bloc, Drift, Mason. Go
+# uses `/` because Go module paths already use it; Dart does not.
 branch_whitelist = ["main"]
 skip_ci = "[skip ci]"
 skip_untracked = true
 post_bump_hooks = ["git push origin {{version_tag}}"]
+
+[monorepo.packages]
+# Per-package versions and tags. cog produces tags as <name>-v<semver>,
+# matching the filter in .github/workflows/release-dart.yml.
+core = { path = "packages/core" }
+oauth = { path = "packages/oauth" }
 
 [git_hooks]
 
