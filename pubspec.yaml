@@ -11,7 +11,7 @@ workspace:
   - packages/oauth
 
 dev_dependencies:
-  melos: ^7.8.1
+  melos: ^7.8.2
 
 melos:
   name: pinguteca_sdk
