@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-06-06T13:16:53.397Z",
+  "generated": "2026-10-15T18:05:36.325Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -12,15 +12,9 @@
     ],
     "actions/checkout": [
       {
-        "version": "de0fac2e4500dabe0009e67214ff5f5447ce83dd",
-        "sha": "de0fac2e4500dabe0009e67214ff5f5447ce83dd",
-        "integrity": "sha256-c744527bfafdf73cf1bf8a83a3ace81c46e36d03e6ed952fa9d93683adabab4d",
-        "dependencies": []
-      },
-      {
-        "version": "11bd71901bbe5b1630ceea73d27597364c9af683",
-        "sha": "11bd71901bbe5b1630ceea73d27597364c9af683",
-        "integrity": "sha256-9dfa8405068129d1c92187abba5ee5288a469d0540a8aca538ac75b6b858eb89",
+        "version": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+        "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+        "integrity": "sha256-cebb825b471e77ce4dd7f1f37ccdfb3ae5b68e78f6f6d2f6e2521c3cfce27e72",
         "dependencies": []
       }
     ],
@@ -108,149 +102,20 @@
         "dependencies": []
       }
     ],
-    "slsa-framework/slsa-github-generator/.github/actions/detect-workflow-js": [
-      {
-        "version": "v2.1.0",
-        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
-        "dependencies": []
-      }
-    ],
-    "slsa-framework/slsa-github-generator/.github/actions/secure-builder-checkout": [
-      {
-        "version": "v2.1.0",
-        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
-        "dependencies": [
-          {
-            "ref": "actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
-            "sha": "11bd71901bbe5b1630ceea73d27597364c9af683",
-            "integrity": "sha256-9dfa8405068129d1c92187abba5ee5288a469d0540a8aca538ac75b6b858eb89"
-          }
-        ]
-      }
-    ],
-    "actions/setup-go": [
-      {
-        "version": "f111f3307d8850f501ac008e886eec1fd1932a34",
-        "sha": "f111f3307d8850f501ac008e886eec1fd1932a34",
-        "integrity": "sha256-2505e4aa8d9d9894d6e8d9e631a6657a9ac08365546e9a43c73f9ec3d6487f71",
-        "dependencies": []
-      }
-    ],
-    "slsa-framework/slsa-github-generator/.github/actions/generate-builder": [
-      {
-        "version": "v2.1.0",
-        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
-        "dependencies": [
-          {
-            "ref": "slsa-framework/slsa-github-generator/.github/actions/secure-builder-checkout@v2.1.0",
-            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
-          },
-          {
-            "ref": "actions/setup-go@f111f3307d8850f501ac008e886eec1fd1932a34",
-            "sha": "f111f3307d8850f501ac008e886eec1fd1932a34",
-            "integrity": "sha256-2505e4aa8d9d9894d6e8d9e631a6657a9ac08365546e9a43c73f9ec3d6487f71"
-          }
-        ]
-      }
-    ],
-    "actions/download-artifact": [
-      {
-        "version": "fa0a91b85d4f404e444e00e005971372dc801d16",
-        "sha": "fa0a91b85d4f404e444e00e005971372dc801d16",
-        "integrity": "sha256-abb1412c1447087445cb29bce547b5f796e929f6bd318ad5667f7b6f3bb56c79",
-        "dependencies": []
-      }
-    ],
-    "slsa-framework/slsa-github-generator/.github/actions/compute-sha256": [
-      {
-        "version": "v2.1.0",
-        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
-        "dependencies": []
-      }
-    ],
-    "slsa-framework/slsa-github-generator/.github/actions/secure-download-artifact": [
-      {
-        "version": "v2.1.0",
-        "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-        "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
-        "dependencies": [
-          {
-            "ref": "actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16",
-            "sha": "fa0a91b85d4f404e444e00e005971372dc801d16",
-            "integrity": "sha256-abb1412c1447087445cb29bce547b5f796e929f6bd318ad5667f7b6f3bb56c79"
-          },
-          {
-            "ref": "slsa-framework/slsa-github-generator/.github/actions/compute-sha256@v2.1.0",
-            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
-          }
-        ]
-      }
-    ],
-    "actions/upload-artifact": [
-      {
-        "version": "65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08",
-        "sha": "65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08",
-        "integrity": "sha256-b2a2476eae39969ce618c3dc31c1fc2345b7ac4def319aa70009c77ac2d4f829",
-        "dependencies": []
-      },
-      {
-        "version": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
-        "sha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
-        "integrity": "sha256-69baddda1bd8d80441109e489128f1b6944fddd92586ad1855275121beeae897",
-        "dependencies": []
-      }
-    ],
-    "softprops/action-gh-release": [
-      {
-        "version": "c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda",
-        "sha": "c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda",
-        "integrity": "sha256-f4ee369308565e2afdd8020f764393fe61cba3e986b6afc026799b88b93f46c6",
-        "dependencies": []
-      }
-    ],
     "slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml": [
       {
         "version": "v2.1.0",
         "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
         "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a",
-        "dependencies": [
-          {
-            "ref": "slsa-framework/slsa-github-generator/.github/actions/detect-workflow-js@v2.1.0",
-            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
-          },
-          {
-            "ref": "slsa-framework/slsa-github-generator/.github/actions/generate-builder@v2.1.0",
-            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
-          },
-          {
-            "ref": "slsa-framework/slsa-github-generator/.github/actions/secure-download-artifact@v2.1.0",
-            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
-          },
-          {
-            "ref": "actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08",
-            "sha": "65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08",
-            "integrity": "sha256-b2a2476eae39969ce618c3dc31c1fc2345b7ac4def319aa70009c77ac2d4f829"
-          },
-          {
-            "ref": "slsa-framework/slsa-github-generator/.github/actions/secure-builder-checkout@v2.1.0",
-            "sha": "f7dd8c54c2067bafc12ca7a55595d5ee9b75204a",
-            "integrity": "sha256-4eb6003c95917b1b5bafa2ccdce2256ce26d2de4b6f58267a0b3521da6f9d14a"
-          },
-          {
-            "ref": "softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda",
-            "sha": "c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda",
-            "integrity": "sha256-f4ee369308565e2afdd8020f764393fe61cba3e986b6afc026799b88b93f46c6"
-          }
-        ]
+        "dependencies": []
+      }
+    ],
+    "actions/upload-artifact": [
+      {
+        "version": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+        "sha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+        "integrity": "sha256-69baddda1bd8d80441109e489128f1b6944fddd92586ad1855275121beeae897",
+        "dependencies": []
       }
     ],
     "dorny/paths-filter": [
