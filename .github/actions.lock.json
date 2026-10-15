@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-06-06T13:16:53.397Z",
+  "generated": "2026-10-15T18:05:38.878Z",
   "actions": {
     "step-security/harden-runner": [
       {
@@ -263,9 +263,9 @@
     ],
     "actions/setup-node": [
       {
-        "version": "48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e",
-        "sha": "48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e",
-        "integrity": "sha256-aefc631800117b35e99f36c1395c361a2a6c6ae364ff47a3ba48c684cd3d3aff",
+        "version": "949feb2413d6458794dcd2491c4babbbce0c15c1",
+        "sha": "949feb2413d6458794dcd2491c4babbbce0c15c1",
+        "integrity": "sha256-fb9d410de60555a0468c6520684b9f66bddc53f33a2b81c1745cd12a24606aef",
         "dependencies": []
       }
     ],
