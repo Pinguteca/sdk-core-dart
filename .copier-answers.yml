@@ -1,5 +1,5 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: aca1d7f
+_commit: da773b9
 _src_path: https://github.com/Pinguteca/sdk-scaffold.git
 description: Layer 2 interceptors and primitives for Pinguteca SDKs in Dart
 github_owner: Pinguteca
