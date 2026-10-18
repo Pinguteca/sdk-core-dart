@@ -2,21 +2,25 @@
 experimental = true
 env_cache = true
 env_cache_ttl = "9h"
-install_before = "7d"
+minimum_release_age = "7d"
 pin = true
 lockfile = true
 locked = false
 prefer_offline = true
 disable_default_registry = true
 disable_backends = ["asdf", "vfox", "ubi"]
+# Decide task freshness by hashing source contents, not mtimes. A fresh checkout
+# resets mtimes, so mtime comparison would rerun tasks needlessly.
+task.source_freshness_hash_contents = true
 
 [tools]
-"github:mongodb/kingfisher" = "1.113.0"
-pinact = "4.1.1"
-prek = "0.5.2"
-syft = "1.51.1"
-dart = "3.12.1"
+# Tools shared by local dev and CI. Local-only tooling (git hooks, action
+# pinning) lives in mise.dev.toml. kingfisher sits here because the
+# secret-scan workflow runs `mise run secret:scan` under MISE_ENV=ci.
+kingfisher = "2.10.0"
 cocogitto = "7.0.0"
+syft = "1.54.0"
+dart = "3.12.1"
 
 [tasks."secret:scan"]
 run = "kingfisher scan . --no-validate --redact --format json --output kingfisher-results.json"

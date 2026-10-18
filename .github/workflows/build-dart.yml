@@ -6,6 +6,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [main]
+# No workflow-level paths filter: when the build is a required check, a pull
+# request that never starts the workflow waits on it forever. The changes job
+# skips the build instead, and GitHub counts a skipped job as passing.
 
 permissions: {}
 
@@ -18,15 +21,18 @@ env:
   MISE_ENV: ci
 
 jobs:
-  build:
-    name: Analyze, format, and test
+  changes:
+    name: Detect build changes
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 5
     permissions:
-      contents: read
+      contents: read # checkout
+      pull-requests: read # list the pull request's changed files
+    outputs:
+      build: ${{ steps.filter.outputs.build }}
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
           disable-telemetry: "true"
@@ -36,14 +42,68 @@ jobs:
           git config --global core.compression 0
           git config --global core.fsync -all
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Filter build inputs
+        id: filter
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+        with:
+          filters: |
+            build:
+              - "**/*.dart"
+              - "**/pubspec.yaml"
+              - "**/pubspec.lock"
+              - "**/analysis_options.yaml"
+              - "**/dart_test.yaml"
+              - "mise.toml"
+              - "mise.ci.toml"
+              - "mise.lock"
+              - ".github/workflows/build-dart.yml"
+
+  build:
+    name: Analyze, format, and test
+    needs: changes
+    # Always build main; build a pull request only when its build inputs changed.
+    if: github.event_name == 'push' || needs.changes.outputs.build == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read # checkout
+      id-token: write # OIDC token for octo-sts to fetch a scoped repo token
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+          disable-telemetry: "true"
+          disable-sudo-and-containers: "true"
+      - name: Optimize Git config for CI
+        run: |
+          git config --global core.compression 0
+          git config --global core.fsync -all
+      - name: Obtain token
+        id: octo-sts
+        uses: octo-sts/action@f603d3be9d8dd9871a265776e625a27b00effe05 # v1.1.1
+        with:
+          scope: Pinguteca/sdk-core-dart
+          identity: build
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           filter: "blob:none"
+          token: ${{ steps.octo-sts.outputs.token }}
       - name: Install mise and tools
-        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           experimental: true
+          install: true
+          # Never restore a CI cache: a poisoned entry would feed builds and
+          # releases.
+          cache: false
+        env:
+          GITHUB_TOKEN: ${{ steps.octo-sts.outputs.token }}
       - name: Fetch dependencies
         run: mise run ci:get
       - name: Verify formatting
