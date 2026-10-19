@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "generated": "2026-10-18T17:35:03.196Z",
+  "generated": "2026-10-19T01:34:42.229Z",
   "actions": {
     "step-security/harden-runner": [
       {
-        "version": "e14015d583714f6e62063499dc959a02595150a1",
-        "sha": "e14015d583714f6e62063499dc959a02595150a1",
-        "integrity": "sha256-08f5cc3c59f56241a1a727dceec5668266196084a8b1bd91f917ccc64edef927",
+        "version": "ccd8616d44fd3846e67624a50d5aad6d37bf2d25",
+        "sha": "ccd8616d44fd3846e67624a50d5aad6d37bf2d25",
+        "integrity": "sha256-bb9426619fcdf51dc2562d52ea461a0ddd0c3733607badb76342e9104a1a4e50",
         "dependencies": []
       }
     ],
@@ -80,9 +80,9 @@
     ],
     "reviewdog/action-actionlint": [
       {
-        "version": "1758727be30241166609dad4c97588b6ad411f32",
-        "sha": "1758727be30241166609dad4c97588b6ad411f32",
-        "integrity": "sha256-e35c82539fbe9a4832ae4f62ccbc7cb816582ac839e5da3ada552a3621d780d5",
+        "version": "a8ac3eea598697a830f7d8e701fc9fcbfde88974",
+        "sha": "a8ac3eea598697a830f7d8e701fc9fcbfde88974",
+        "integrity": "sha256-cc8e461bb1708dc64fc07dd29fac8033eaff180e76b62df4296cac08c7457262",
         "dependencies": []
       }
     ],
@@ -194,9 +194,9 @@
         "dependencies": []
       },
       {
-        "version": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
-        "sha": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
-        "integrity": "sha256-69baddda1bd8d80441109e489128f1b6944fddd92586ad1855275121beeae897",
+        "version": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+        "sha": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+        "integrity": "sha256-fbfc16e1e41626460fc6935077d5ed6577ed8ed002b153a2c5a0df252026c44e",
         "dependencies": []
       }
     ],
@@ -249,17 +249,17 @@
     ],
     "actions/setup-node": [
       {
-        "version": "820762786026740c76f36085b0efc47a31fe5020",
-        "sha": "820762786026740c76f36085b0efc47a31fe5020",
-        "integrity": "sha256-188334b94098a2418b97bfc9bdca36a42eb49e883082a3cb253921396c227b6b",
+        "version": "949feb2413d6458794dcd2491c4babbbce0c15c1",
+        "sha": "949feb2413d6458794dcd2491c4babbbce0c15c1",
+        "integrity": "sha256-fb9d410de60555a0468c6520684b9f66bddc53f33a2b81c1745cd12a24606aef",
         "dependencies": []
       }
     ],
     "chainguard-dev/actions/setup-gitsign": [
       {
-        "version": "84b1be4c638f12d4256ddddef17af98853b6d0d9",
-        "sha": "84b1be4c638f12d4256ddddef17af98853b6d0d9",
-        "integrity": "sha256-ea4a3a4bc24798f661f935a77a8c84c47467cc73ce4e9e74bb015d5866e62594",
+        "version": "3403a578b543fd3f0debdaef9dd989ae54e3fcef",
+        "sha": "3403a578b543fd3f0debdaef9dd989ae54e3fcef",
+        "integrity": "sha256-10cffcf9c9618a2669b60d6fa6e778131efef2ab2d33c45e0bad731129cd2664",
         "dependencies": []
       }
     ],
