@@ -19,6 +19,6 @@ jq = "1.8.2"          # JSON formatting (hk check-json)
 # Workflow linters for the hk pre-push hook. CI runs its own copies through the
 # zizmor and reviewdog actions in lint-gha, so these are local-only here.
 actionlint = "1.7.12"
-zizmor = "1.31.0"
+zizmor = "1.31.1"
 # Pulls template changes with `copier update`.
 copier = "9.19.1"
