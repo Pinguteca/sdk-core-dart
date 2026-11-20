@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "generated": "2026-10-25T09:55:17.986Z",
+  "generated": "2026-11-20T05:10:14.816Z",
   "actions": {
     "step-security/harden-runner": [
       {
-        "version": "ccd8616d44fd3846e67624a50d5aad6d37bf2d25",
-        "sha": "ccd8616d44fd3846e67624a50d5aad6d37bf2d25",
-        "integrity": "sha256-bb9426619fcdf51dc2562d52ea461a0ddd0c3733607badb76342e9104a1a4e50",
+        "version": "1d88384fd173af6ecb012dfd0264a306b711241a",
+        "sha": "1d88384fd173af6ecb012dfd0264a306b711241a",
+        "integrity": "sha256-a229c75904ff8704b9458ffd527f400a06580abde4f304c0d30d8a49626b7eee",
         "dependencies": []
       }
     ],
@@ -42,9 +42,9 @@
     ],
     "jdx/mise-action": [
       {
-        "version": "9b200bcecbfd6303e69a4a261b2e09e3757440a7",
-        "sha": "9b200bcecbfd6303e69a4a261b2e09e3757440a7",
-        "integrity": "sha256-acef8f067a6e05e764da5656023be1a7fa912b376360292a2341ae1346fe3493",
+        "version": "d5574b52816a478f9d4e6529a3f6ff17a8a36785",
+        "sha": "d5574b52816a478f9d4e6529a3f6ff17a8a36785",
+        "integrity": "sha256-dbd3dc3ecc48fb421afec71b762e3cd27d5da3be2985cd2809634f85a8fbf0e6",
         "dependencies": []
       }
     ],
@@ -58,47 +58,47 @@
     ],
     "github/codeql-action/upload-sarif": [
       {
-        "version": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
-        "sha": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
-        "integrity": "sha256-bf19b494344123a932d0c3059dc6093091e99daa01889f24bf917093a87fd556",
+        "version": "9b3254085494b55a0f7c4c2b3d2d52cc712ce370",
+        "sha": "9b3254085494b55a0f7c4c2b3d2d52cc712ce370",
+        "integrity": "sha256-a345b3ba44e889c81d57339e079a00b060d0edc632aa73a5f087aff1ad8e490c",
         "dependencies": []
       }
     ],
     "zizmorcore/zizmor-action": [
       {
-        "version": "85b2b9fb8e3325e7a23d7d0a9d7ba5ae0f999e3e",
-        "sha": "85b2b9fb8e3325e7a23d7d0a9d7ba5ae0f999e3e",
-        "integrity": "sha256-0cc14181df0e8295709cd499490773054e4a750653358603b0ffd2b8e8581379",
+        "version": "45d7276c9ca790aabd705e31ca99c6185c3e76dd",
+        "sha": "45d7276c9ca790aabd705e31ca99c6185c3e76dd",
+        "integrity": "sha256-112b144a8f9c2da297be0a16c5b09aecb7e2d6e5b1ee9324028b15cc945c2a01",
         "dependencies": [
           {
-            "ref": "github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
-            "sha": "2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2",
-            "integrity": "sha256-bf19b494344123a932d0c3059dc6093091e99daa01889f24bf917093a87fd556"
+            "ref": "github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370",
+            "sha": "9b3254085494b55a0f7c4c2b3d2d52cc712ce370",
+            "integrity": "sha256-a345b3ba44e889c81d57339e079a00b060d0edc632aa73a5f087aff1ad8e490c"
           }
         ]
       }
     ],
     "reviewdog/action-actionlint": [
       {
-        "version": "b76d06f8570118465db3190c9a08f1b29d341aa1",
-        "sha": "b76d06f8570118465db3190c9a08f1b29d341aa1",
-        "integrity": "sha256-447888c96daa4b26c9128df8cae407c7d68450c168af5f64054d6bca4ee31167",
+        "version": "ae857e78c1b42b3d0a49637181b09d3d56d402b4",
+        "sha": "ae857e78c1b42b3d0a49637181b09d3d56d402b4",
+        "integrity": "sha256-e59025e6790c4eb04c0a2dd64b6b49a2ab5dd8b9ec7731b18ae0de5aaa506177",
         "dependencies": []
       }
     ],
     "dart-lang/setup-dart": [
       {
-        "version": "6afc89df92d6eb3834022f73cd65adc8cdfcb92d",
-        "sha": "6afc89df92d6eb3834022f73cd65adc8cdfcb92d",
-        "integrity": "sha256-2b1d9498dc9894a64a1e4e79392e0f883071f968e9475a1361b9af38c350110c",
+        "version": "2286a0c042b44434fe26d292bbce8d34f7ec662b",
+        "sha": "2286a0c042b44434fe26d292bbce8d34f7ec662b",
+        "integrity": "sha256-d17edfc6b02fcc94cee16dc9cd5909978a7334f27d946d62c914a56950ddcda3",
         "dependencies": []
       }
     ],
     "sigstore/cosign-installer": [
       {
-        "version": "6f9f17788090df1f26f669e9d70d6ae9567deba6",
-        "sha": "6f9f17788090df1f26f669e9d70d6ae9567deba6",
-        "integrity": "sha256-d94dba410d0604808ebc153f98eddc26571cf0b0f0bcc6fd66f2f80b682aab1c",
+        "version": "756fe2d284c7292c4e9b62c8a28f1e5629c59532",
+        "sha": "756fe2d284c7292c4e9b62c8a28f1e5629c59532",
+        "integrity": "sha256-e2cddf469cd12bcdcd00c7e7962babe9094ccc764655de4c7c07dadb0aae2059",
         "dependencies": []
       }
     ],
@@ -257,9 +257,9 @@
     ],
     "chainguard-dev/actions/setup-gitsign": [
       {
-        "version": "3403a578b543fd3f0debdaef9dd989ae54e3fcef",
-        "sha": "3403a578b543fd3f0debdaef9dd989ae54e3fcef",
-        "integrity": "sha256-10cffcf9c9618a2669b60d6fa6e778131efef2ab2d33c45e0bad731129cd2664",
+        "version": "a25ce483d875a46f4c837e85e32e0fda602693f5",
+        "sha": "a25ce483d875a46f4c837e85e32e0fda602693f5",
+        "integrity": "sha256-a865a6f8403e35b3933037668b1ddebd30a1021b4d5d0c4a384d7650eb2eee47",
         "dependencies": []
       }
     ],
